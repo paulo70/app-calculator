@@ -5,18 +5,11 @@ import './calculator.css';
 import CalculatorService from './calculatorService'
 
 function Calculator() {
-  const [
-    calculate,
-    numberConcat,
-    SUM,
-    SUBTRACTION,
-    DIVIDED,
-    MULTIPLICATION
-  ] = CalculatorService()
+  const [ calculate, numberConcat, SUM, SUBTRACTION, DIVIDED, MULTIPLICATION ] = CalculatorService()
 
   const [ displayNumbers, setDisplayNumbers ] = useState('0')
-  const [ numberOne, setNumberOne ]           = useState('0')
-  const [ numberTwo, setNumberTwo ]           = useState(null)
+  const [ numberOne, setNumberOne  ]          = useState('0')
+  const [ numberTwo, setNumberTwo  ]          = useState(null)
   const [ operation, setOperations ]          = useState(null)
 
 
@@ -96,6 +89,7 @@ function Calculator() {
             className='text-right'
             readOnly='readonly'
             value = {displayNumbers}
+            data-testid = 'displayNumbers'
            />
         </Col>
       </Row>
@@ -111,7 +105,7 @@ function Calculator() {
           <Button variant='light' onClick = {() => addNumber('9')}> 9</Button>
         </Col>
         <Col>
-          <Button variant='warning' onClick = {() => setOperation('/')}> / </Button>
+          <Button variant='warning' onClick = {() => setOperation(DIVIDED)}> / </Button>
         </Col>
       </Row>
 
@@ -126,7 +120,7 @@ function Calculator() {
           <Button variant='light' onClick = {() => addNumber('6')}> 6</Button>
         </Col>
         <Col>
-          <Button variant='warning' onClick = {() => setOperation('*')}> * </Button>
+          <Button variant='warning' onClick = {() => setOperation(MULTIPLICATION)}> * </Button>
         </Col>
       </Row>
 
@@ -141,7 +135,7 @@ function Calculator() {
           <Button variant='light' onClick = {() => addNumber('3')}> 3</Button>
         </Col>
         <Col>
-          <Button variant='warning' onClick = {() => setOperation('-')}> - </Button>
+          <Button variant='warning' onClick = {() => setOperation(SUBTRACTION)}> - </Button>
         </Col>
       </Row>
 
@@ -156,7 +150,7 @@ function Calculator() {
           <Button variant='success' onClick = {actionCalculate}> = </Button>
         </Col>
         <Col>
-          <Button variant='warning' onClick = {() => setOperation('+')}> + </Button>
+          <Button variant='warning' onClick = {() => setOperation(SUM)}> + </Button>
         </Col>
       </Row>
     </Container>
