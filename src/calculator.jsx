@@ -1,17 +1,78 @@
 import React, { useState } from 'react';
 import { Jumbotron, Container, Row, Col, Button, Form } from 'react-bootstrap'
+
 import './calculator.css';
+import CalculatorService from './calculatorService'
 
 function Calculator() {
+  const [
+    calculate,
+    numberConcat,
+    SUM,
+    SUBTRACTION,
+    DIVIDED,
+    MULTIPLICATION
+  ] = CalculatorService()
 
   const [ displayNumbers, setDisplayNumbers ] = useState('0')
+  const [ numberOne, setNumberOne ]           = useState('0')
+  const [ numberTwo, setNumberTwo ]           = useState(null)
+  const [ operation, setOperations ]          = useState(null)
+
 
   function addNumber(number){
-    setDisplayNumbers(displayNumbers + number)
+    let result;
+
+    if( operation === null ) {
+
+      result = numberConcat(numberOne, number)
+      setNumberOne(result)
+
+    } else {
+
+      result = numberConcat(numberTwo, number)
+      setNumberTwo(result)
+    }
+
+    setDisplayNumbers(result)
   }
 
   function setOperation(op) {
-    setDisplayNumbers(op)
+
+    if( operation === null ){
+
+      setOperations(op)
+      return
+    }
+
+    if( numberTwo !== null ) {
+      const result = calculate( parseFloat(numberOne) , parseFloat(numberTwo), operation)
+      setOperations(op)
+
+      setNumberOne(result.toString())
+      setNumberTwo(null)
+
+      setDisplayNumbers(result.toString())
+    }
+
+  }
+
+  function actionCalculate(){
+
+    if( numberTwo === null ) {
+      return
+    }
+
+    const result = calculate( parseFloat(numberOne), parseFloat(numberTwo), operation)
+    setDisplayNumbers(result)
+  }
+
+
+  function clear(){
+    setDisplayNumbers('0')
+    setNumberOne('0')
+    setNumberTwo(null)
+    setOperations(null)
   }
 
   return (
@@ -26,7 +87,7 @@ function Calculator() {
     <Container>
       <Row>
         <Col xs='3'>
-          <Button variant='danger'> C </Button>
+          <Button variant='danger' onClick = {clear}> C </Button>
         </Col>
         <Col xs='9'>
           <Form.Control
@@ -89,10 +150,10 @@ function Calculator() {
           <Button variant='light' onClick = {() => addNumber('0')}> 0</Button>
         </Col>
         <Col>
-          <Button variant='light'> .</Button>
+          <Button variant='light' onClick = {() => addNumber('.')}> .</Button>
         </Col>
         <Col>
-          <Button variant='success'> = </Button>
+          <Button variant='success' onClick = {actionCalculate}> = </Button>
         </Col>
         <Col>
           <Button variant='warning' onClick = {() => setOperation('+')}> + </Button>
