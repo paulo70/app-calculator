@@ -1,5 +1,8 @@
 function calculatorService(){
   const SUM = '+'
+  const SUBTRACTION = '-'
+  const DIVIDED = '/'
+  const MULTIPLICATION = '*'
 
   function calculate(number1, number2, operation){
     let result;
@@ -8,6 +11,21 @@ function calculatorService(){
       case SUM:
       result = number1 + number2
       break;
+
+      case SUBTRACTION:
+      result = number1 - number2
+      break;
+
+      case DIVIDED:
+      result = number1 / number2
+      break;
+
+      case MULTIPLICATION:
+      result = number1 * number2
+      break;
+
+      default:
+        result = 0
     }
 
 
@@ -15,7 +33,11 @@ function calculatorService(){
   }
 
   return [
-    calculate
+    calculate,
+    SUM,
+    SUBTRACTION,
+    DIVIDED,
+    MULTIPLICATION
   ]
 }
 
